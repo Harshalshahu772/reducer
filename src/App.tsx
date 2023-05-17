@@ -1,6 +1,4 @@
 import React from 'react';
-
-import './App.css';
 import Reducer from './Reducer/Reducer';
 
 function App() {
