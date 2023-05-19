@@ -1,10 +1,11 @@
 import React from 'react';
-import Reducer from './Reducer/Reducer';
+
+import ReducerFunction from './Store';
 
 function App() {
   return (
-  <Reducer></Reducer>
-  
+  // <Reducer></Reducer>
+<ReducerFunction/>
   );
 }
 
