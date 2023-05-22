@@ -1,5 +1,8 @@
 import { useReducer, useRef, useState } from "react";
 import { actionType, stateType } from "./ReducerValue";
+import ShowHelthData from "../ShowHelthData/ShowHelthData";
+import SetHelthData from "../SetHelthData/SetHelthData";
+import Contexmain from "../Contex-main/Contexmain";
 
 const inistialState: stateType = {
   BP: { value: 0, name: "Bloodsure" },
@@ -38,61 +41,35 @@ const reducerFunction = (state = inistialState, action: actionType) => {
   }
 };
 const ReducerFunction = () => {
-  const selectef: any = useRef();
   const [helthInput, setHelthInput] = useState<number>(0);
+
+  const setInputValueFun = (value: number) => {
+    setHelthInput(value);
+  };
 
   const [count, dispatch] = useReducer(reducerFunction, inistialState);
 
-  const updayteHelathData = () => {
-    console.log("selectRef", selectef.current.value);
+  const updayteHelathData = (inputValue: any) => {
+    console.log("selectRef", inputValue);
     console.log("helthInput", helthInput);
 
     dispatch({
       payload: { value: helthInput },
-      type: selectef.current.value,
+      type: inputValue,
     });
   };
 
   return (
     <>
-      <div>
-        <ul>
-          <li>
-            {count.BP.name}={count.BP.value}
-          </li>
-          <li>
-            {count.HR.name}={count.HR.value}
-          </li>
-          <li>
-            {count.SBP.name}={count.SBP.value}
-          </li>
-          <li>
-            {count.DBP.name}={count.DBP.value}
-          </li>
-        </ul>
-      </div>
-
-      <div>
-        <ul>
-          <select name="healthh" ref={selectef}>
-            <option value="Update_BP">Bloodsure</option>
-            <option value="Update_HR">heart Rate</option>
-            <option value="Update_SBP">Sistolic Bp</option>
-            <option value="Update_DBP">Distolic BP</option>
-          </select>
-          <input
-            type="text"
-            value={helthInput}
-            onChange={(event) => setHelthInput(parseInt(event.target.value))}
-          ></input>
-
-          <input
-            type="submit"
-            value="Submit"
-            onClick={updayteHelathData}
-          ></input>
-        </ul>
-      </div>
+      <Contexmain.Provider
+        value={{
+          inputValue: helthInput,
+          setInputValue: setInputValueFun,
+        }}
+      >
+        <ShowHelthData count={count} />
+        <SetHelthData count={count} updayteHelathData={updayteHelathData} />
+      </Contexmain.Provider>
     </>
   );
 };
